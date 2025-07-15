@@ -13,12 +13,12 @@ class RequestHandler(socketserver.StreamRequestHandler):
         self._kv = self.server.kv
 
         self._commands = {
-            b'GET': self.get,
-            b'SET': self.set,
-            b'DELETE': self.delete,
-            b'FLUSH': self.flush,
-            b'MGET': self.mget,
-            b'MSET': self.mset
+            'GET': self.get,
+            'SET': self.set,
+            'DELETE': self.delete,
+            'FLUSH': self.flush,
+            'MGET': self.mget,
+            'MSET': self.mset
         }
 
     def handle(self):

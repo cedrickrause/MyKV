@@ -44,7 +44,7 @@ class ProtocolHandler:
         if length == -1:
             return None
         length += 2
-        return rfile.readline().rstrip()
+        return rfile.readline().rstrip().decode()
 
 
     def handle_array(self, rfile: BinaryIO):
