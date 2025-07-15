@@ -7,17 +7,19 @@ from ProtocolHandler import ProtocolHandler
 class Client(object):
     def __init__(self, host='localhost', port=9999):
         self._protocol = ProtocolHandler()
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.connect((host, port))
+        self._host = host
+        self._port = port
 
     def execute(self, *args):
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._socket.connect((self._host, self._port))
         request = self._protocol.serialize(args)
         self._socket.sendall(request.encode())
         self._socket.sendall(b"\n")
         response = self._protocol.parse(io.BytesIO(self._socket.recv(1024)))
-        # TODO After the first call there is a broken pipe error here.. dunno why
         print("Sent:    ", args)
         print("Received:", response)
+        self._socket.close()
         if isinstance(response, Error):
             raise CommandError(response.message)
         return response
